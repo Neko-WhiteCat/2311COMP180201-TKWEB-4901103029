@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý ứng dụng</title>
+    <style>
+        .panel {
+			width: 60%;
+			margin: 0 auto;
+			border: solid #4267b2 1px;
+		}
+
+		.panel-heading {
+			background-color: #4267b2;
+			padding: 10px;
+			color: white;
+		}
+
+		.panel-body {
+			padding: 10px;
+		}
+
+		.panel-body label {
+			font-weight: bold;
+		}
+
+		.form-group {
+			display: block;
+			margin-bottom: 20px;
+		}
+
+		.form-control {
+			display: block;
+			width: 98%;
+			font-size: 16px;
+			margin-top: 10px;
+		}
+
+		.table {
+			width: 100%;
+		}
+
+		.table tr {
+			border-bottom: solid blue 1px;
+		}
+
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <div class="panel-heading">
+            Input product detail information
+        </div>
+        <div class="panel-body">
+            <form method="post">
+                <div class="form-group">
+                    <label>Product Name:</label>
+                    <input type="number" name="index" id="index" value="" hidden="true">
+                    <input class="form-control" type="text" name="product_name" id="product_name" placeholder="Enter product name">
+                </div>
+                <div class="form-group">
+			<label>Price:</label>
+			<input class="form-control" type="number" name="price" id="price" placeholder="Enter price" value="0" onkeyup="updateTotalPrice()">
+		</div>
+                <div class="form-group">
+			<button class="btn btn-success" type="button" onclick="addProduct()">Add Produce</button>
+			<button class="btn btn-danger" type="reset">Reset</button>
+				</div>
+            </form>
+        </div>
+    </div>
+    <div class="panel" style="margin-top: 20px;">
+		<div class="panel-heading">
+			Product List
+		</div>
+		<div class="panel-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th >No</th>
+						<th>Product Name</th>
+						<th>Price</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody id="result">
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+    <script type="text/javascript">
+		
+	var productList = []
+	var manuafaturerTag = document.getElementById('manuafaturer_name')
+		for(var key in manufactureList) {
+			manuafaturerTag.innerHTML += `<option value='${key}'>${key}</option>`
+		}
+
+		function changeManufaturer() {
+			key = manuafaturerTag.value
+			categoryList = manufactureList[key]
+
+			var categoruTag = document.getElementById('category_name')
+			categoryTag.innerHTML = ''
+
+			if(categoryList != null) {
+				for (var i = 0; i < categoryList.length; i++) {
+					categoryTag.innerHTML += `<option value='${categoryList[i]}'>${categoryList[i]}</option>`
+				}
+			}
+		}
+
+		var count = 0
+		function addProduct() {
+			var index = document.getElementById('index').value
+			var productName = document.getElementById('product_name').value
+			var price = document.getElementById('price').value
+
+			var product = {
+				'productName': productName,
+				'price': price
+			}
+
+			if(index != '') {
+				productList[index] = product
+				showProduct()
+				return;
+			}
+
+			productList.push(product)
+
+			document.getElementById('result').innerHTML += `<tr>
+						<td>${++count}</td>
+						<td>${productName}</td>
+						<td>${price}</td>
+						<td><button class="btn btn-warning" onclick="editProduct(${count - 1})">Edit</button></td>
+						<td><button class="btn btn-danger" onclick="deleteProduct(${count - 1})">Delete</button></td>
+					</tr>`
+		}
+
+		function deleteProduct(index) {
+			productList.splice(index, 1)
+			showProduct();
+		}
+
+		function showProduct() {
+			document.getElementById('result').innerHTML = ''
+
+			for (var i = 0; i < productList.length; i++) {
+				document.getElementById('result').innerHTML += `<tr>
+						<td>${i+1}</td>
+						<td>${productList[i].productName}</td>
+						<td>${productList[i].price}</td>
+						<td><button class="btn btn-warning" onclick="editProduct(${i})">Edit</button></td>
+						<td><button class="btn btn-danger" onclick="deleteProduct(${i})">Delete</button></td>
+					</tr>`
+			}
+		}
+
+		function editProduct(index) {
+			var product = productList[index]
+			document.getElementById('index').value = index
+			document.getElementById('product_name').value = product.productName
+			changeManufaturer()
+			document.getElementById('price').value = product.price
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Hồ Cá CSS3</title>
+	<meta charset="utf-8">
+	<style>
+
+#background_image{
+	width: 600%;
+	height: 600vh;
+}
+
+#shark
+{
+	left:10px; top:40px;
+	width: 150px; height: 107px;
+	position: absolute;
+	-webkit-animation-name: Shark;
+	-webkit-animation-duration: 5s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-play-state: running;	
+	-webkit-transform:scaleX(1)
+}
+@-webkit-keyframes Shark
+{
+	0%   {left:100px; top:40px;}
+	1%   {left:100px; top:40px;}
+	20%  {left:300px; top:40px;}
+	40%  {left:500px; -webkit-transform:scaleX(-1);}
+	60%  {left:700px; top:10px; -webkit-transform:scaleX(-1);}
+	90%  {left:500px; top:20px; -webkit-transform:scaleX(-1);}
+	100% {left:10px; top:40px; -webkit-transform:scaleX(-1);}
+}
+
+
+	</style>
+</head>
+<body>
+
+<div id="background">
+	<div id="background_image"><img src="../6.1.1/image/abc.jpg"></div>
+    <div id="shark"><img src="../6.1.1/image/ca.jpg"></div>
+	
+</div>
+
+</body>
+</html>
